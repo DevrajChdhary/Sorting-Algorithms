@@ -4,7 +4,7 @@
 void sort(int *a, int l, int u)
 {
         int i=l, j=u, key=a[u], t=0;
-        if(lb>=u)
+        if(l>=u)
                 return;
         while(i<j)
         {
