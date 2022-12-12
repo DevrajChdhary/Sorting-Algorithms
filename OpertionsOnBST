@@ -1,0 +1,125 @@
+ //1) Search a particular key. 
+ //2) Delete a node from the tree.
+ //3) Find total number of leaf nodes 
+ //Find total node in right hand side
+ #include<stdio.h>
+#include<stdlib.h>
+
+int count=0;
+int right=0;
+int left=0;
+struct node {
+int data;
+struct node *left;
+struct node *right;
+};
+
+struct node *createnode(int num){
+struct node *n;
+n=(struct node *)malloc(sizeof(struct node));
+if(n==NULL){
+ printf("Storage is full\n");
+ }else{
+ n->left=NULL;
+ n->data=num;
+ n->right=NULL;
+ }
+ return n;
+}
+int countleaf(struct node *node){
+if(node!=NULL){
+ countleaf(node->left);
+ if(node->right==NULL && node->left==NULL){
+ count++;
+ }
+ countleaf(node->right);
+}
+return count;
+}
+int rightNode(struct node *root){
+    if(root!=NULL){
+        rightNode(root->right);
+        if(root->right==NULL || root->left==NULL){
+            right++;
+        }
+    }
+    return right;
+}
+int leftNode(struct node *root){
+    if(root!=NULL){
+        leftNode(root->left);
+        if(root->right==NULL || root->left==NULL){
+            left++;
+        }
+    }
+    return left;
+}
+void inorder(struct node *root){
+    if(root!=NULL){
+    inorder(root->left);
+    printf("%d ",root->data);
+    inorder(root->right);
+    }
+}
+struct node *inorderpre(struct node *root){
+    root=root->left;
+    while(root->right!=NULL){
+        root=root->right;
+    }
+    return root;
+}
+struct node *deletenode(struct node *root,int value){
+    struct node *ipre;
+    if(root==NULL){
+        return NULL;
+    }
+    if(root->left==NULL && root->right==NULL){
+        free(root);
+        return NULL;
+    }
+    if(value<root->data){
+        root->left=deletenode(root->left,value);
+    }
+    else if(value>root->data){
+        root->right=deletenode(root->right,value);
+    }
+    else{
+        ipre=inorderpre(root);
+        root->data=ipre->data;
+        deletenode(root->left,ipre->data);
+    }
+    return root;
+}
+struct node *search(struct node *root,int value){
+    while(root!=NULL)
+    if(root->data==value){
+        return root;
+    }
+    else if(value<root->data){
+        root=root->left;
+    }
+    else{
+        root=root->right;
+    }
+    return NULL;
+}
+int main(){
+struct node *n=createnode(7);
+n->left=createnode(3);
+n->left->left=createnode(2);
+n->left->right=createnode(5);
+n->right=createnode(10);
+n->right->right=createnode(12);
+printf("Total number of nodes in right hand side of binary search tree=%d\n",rightNode(n));
+printf("Number of leaf node in the binary search tree==%d\n",countleaf(n));
+deletenode(n,5);
+//printf("\n");
+inorder(n);
+struct node *p=search(n,10);
+if(p!=NULL){
+    printf("\nValue is present in BST\n");
+}else{
+    printf("Value is not found in BST");
+}
+return 0;
+}
