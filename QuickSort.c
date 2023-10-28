@@ -25,6 +25,7 @@ void sort(int *a, int l, int u)
         sort(a, j+1, u);
 }
 
+
 void show(int *a)
 {
         for(int i=0; i<max; i++)
