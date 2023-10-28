@@ -18,6 +18,7 @@ void merge(int A[], int mid, int low, int high)
 
     while (i <= mid && j <= high)
     {
+        
         if (A[i] < A[j])
         {
             B[k] = A[i];
