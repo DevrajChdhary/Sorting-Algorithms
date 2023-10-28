@@ -1,6 +1,7 @@
 #include<stdio.h>
 #define max 5
 
+
 void sort(int *a, int l, int u)
 {
         int i=l, j=u, key=a[u], t=0;
